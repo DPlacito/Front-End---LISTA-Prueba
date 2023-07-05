@@ -1,0 +1,135 @@
+<div
+  class="btn-group mb-5"
+  role="group"
+  aria-label="Basic mixed styles example"
+>
+  <h3 class="mr-3">Filtrar lista por Status</h3>
+  <button type="button" class="btn btn-primary" (click)="filterAll()">
+    TODO
+  </button>
+  <button type="button" class="btn btn-success" (click)="filterCompleteTasks()">
+    COMPLETADAS
+  </button>
+  <button
+    type="button"
+    class="btn btn-warning"
+    (click)="filterNoCompleteTasks()"
+  >
+    NO COMPLETADAS
+  </button>
+</div>
+
+<div *ngIf="allTasks">
+  <div *ngFor="let task of tasks" class="card card-body mb-2">
+    <div class="row">
+      <div class="col-md-8">
+        <ul>
+          <li>Tarea: {{ task.name }}</li>
+          <li>Descripción: {{ task.description }}</li>
+          <li>Precio: {{ task.price }}</li>
+          <li>Creado: {{ task.createdAt | date : "short" }}</li>
+        </ul>
+        <button (click)="deleteTask(task._id)" class="btn btn-danger px-3">
+          Eliminar
+        </button>
+        <button
+          [routerLink]="['/task/edit', task._id]"
+          class="btn btn-secondary"
+        >
+          Editar
+        </button>
+        <button
+          class="btn"
+          [ngClass]="{
+            'btn-success': task.status === 'Completado',
+            'btn-warning': task.status === 'NoCompletado'
+          }"
+          (click)="updateStatus(task._id)"
+        >
+          {{ task.status === "NoCompletado" ? "No Completada" : "Completada" }}
+        </button>
+      </div>
+      <div class="col-md-4">
+        <img class="card-img" [src]="task.imageURL" alt="" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="completeTasks">
+  <div *ngFor="let task of tasks">
+    <div *ngIf="task.status === 'Completado'" class="card card-body mb-2">
+      <div class="row">
+        <div class="col-md-8">
+          <ul>
+            <li>Tarea: {{ task.name }}</li>
+            <li>Descripción: {{ task.description }}</li>
+            <li>Precio: {{ task.price }}</li>
+            <li>Creado: {{ task.createdAt | date : "short" }}</li>
+          </ul>
+          <button (click)="deleteTask(task._id)" class="btn btn-danger px-3">
+            Eliminar
+          </button>
+          <button
+            [routerLink]="['/task/edit', task._id]"
+            class="btn btn-secondary"
+          >
+            Editar
+          </button>
+          <button
+            class="btn"
+            [ngClass]="{
+            'btn-success': task.status === 'Completado',
+          }"
+            (click)="updateStatus(task._id)"
+          >
+            {{ task.status === "Completado" ? "Completada" : "No Completada" }}
+          </button>
+        </div>
+        <div class="col-md-4">
+          <img class="card-img" [src]="task.imageURL" alt="" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="noCompleteTasks">
+  <div *ngFor="let task of tasks">
+    <div *ngIf="task.status === 'NoCompletado'" class="card card-body mb-2">
+      <div class="row">
+        <div class="col-md-8">
+          <ul>
+            <li>Tarea: {{ task.name }}</li>
+            <li>Descripción: {{ task.description }}</li>
+            <li>Precio: {{ task.price }}</li>
+            <li>Creado: {{ task.createdAt | date : "short" }}</li>
+          </ul>
+          <button (click)="deleteTask(task._id)" class="btn btn-danger px-3">
+            Eliminar
+          </button>
+          <button
+            [routerLink]="['/task/edit', task._id]"
+            class="btn btn-secondary"
+          >
+            Editar
+          </button>
+          <button
+            class="btn"
+            [ngClass]="{
+              'btn-warning': task.status === 'NoCompletado'
+            }"
+            (click)="updateStatus(task._id)"
+          >
+            {{
+              task.status === "NoCompletado" ? "No Completada" : "Completada"
+            }}
+          </button>
+        </div>
+        <div class="col-md-4">
+          <img class="card-img" [src]="task.imageURL" alt="" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
